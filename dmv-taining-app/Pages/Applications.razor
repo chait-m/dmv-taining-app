@@ -1,0 +1,121 @@
+@page "/applications"
+@inject IJSRuntime JS
+@using DmvTrainingApp.Models
+
+<PageTitle>All Applications</PageTitle>
+
+<h1>All Vehicle Title Applications</h1>
+
+@if (showClearedMessage)
+{
+    <div class="alert alert-danger">All application data is cleared</div>
+}
+
+<!-- Confirmation Modal -->
+<div class="modal fade" tabindex="-1" id="clearDataModal" aria-labelledby="clearDataModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title" id="clearDataModalLabel">Confirm Data Deletion</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>All of the below application data will be permanently erased, and cannot be retrieved back. Use only after the applications are sent through the batch job. Do you want to continue?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger" @onclick="OnConfirmClearData">Yes, Clear Data</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (applications != null && applications.Count > 0)
+{
+    <button class="btn btn-danger mb-3" @onclick="ShowClearDataModal">Clear Data</button>
+}
+
+@if (applications == null)
+{
+    <p>Loading...</p>
+}
+else if (applications.Count == 0)
+{
+    <div class="alert alert-info">No applications found.</div>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Application #</th>
+                <th>Owner Name</th>
+                <th>VIN</th>
+                <th>Make</th>
+                <th>Model</th>
+                <th>Year</th>
+                <th>Fee</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var app in applications)
+            {
+                <tr>
+                    <td>@app.ApplicationNumber</td>
+                    <td>@app.OwnerName</td>
+                    <td>@app.VIN</td>
+                    <td>@app.Make</td>
+                    <td>@app.Model</td>
+                    <td>@app.Year</td>
+                    <td>$@app.Fee</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<VehicleTitleModel>? applications;
+    private bool showClearedMessage = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadApplications();
+    }
+
+    private async Task LoadApplications()
+    {
+        var json = await JS.InvokeAsync<string>("dmvAppDb.getAllApplications");
+        if (!string.IsNullOrWhiteSpace(json))
+        {
+            applications = System.Text.Json.JsonSerializer.Deserialize<List<VehicleTitleModel>>(json);
+        }
+        else
+        {
+            applications = new List<VehicleTitleModel>();
+        }
+        StateHasChanged();
+    }
+
+    private async Task ClearData()
+    {
+        await JS.InvokeVoidAsync("dmvAppDb.clearApplications");
+        await LoadApplications();
+    }
+
+    private async Task ShowClearDataModal()
+    {
+        await JS.InvokeVoidAsync("dmvAppModal.show", "clearDataModal");
+    }
+
+    private async Task OnConfirmClearData()
+    {
+        await ClearData();
+        await JS.InvokeVoidAsync("dmvAppModal.hide", "clearDataModal");
+        showClearedMessage = true;
+        StateHasChanged();
+        await Task.Delay(1000);
+        showClearedMessage = false;
+        StateHasChanged();
+    }
+}

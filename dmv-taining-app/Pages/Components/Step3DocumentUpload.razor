@@ -1,0 +1,26 @@
+@using DmvTrainingApp.Models
+
+<div>
+    <h3>Step 3: Document Upload</h3>
+    <div class="mb-3">
+        <label>Bill of Sale:</label>
+        <InputFile OnChange="e => UploadFile(e, nameof(Model.BillOfSale))" />
+    </div>
+    <div class="mb-3">
+        <label>Proof of Insurance:</label>
+        <InputFile OnChange="e => UploadFile(e, nameof(Model.ProofOfInsurance))" />
+    </div>
+    <div class="mb-3">
+        <label>Proof of Identity:</label>
+        <InputFile OnChange="e => UploadFile(e, nameof(Model.ProofOfIdentity))" />
+    </div>
+    <button class="btn btn-secondary me-2" type="button" @onclick="PrevStep">Back</button>
+    <button class="btn btn-primary" type="button" @onclick="NextStep">Next</button>
+</div>
+
+@code {
+    [Parameter] public VehicleTitleModel Model { get; set; }
+    [Parameter] public EventCallback NextStep { get; set; }
+    [Parameter] public EventCallback PrevStep { get; set; }
+    [Parameter] public Func<InputFileChangeEventArgs, string, Task> UploadFile { get; set; }
+}

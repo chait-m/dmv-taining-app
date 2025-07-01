@@ -1,0 +1,42 @@
+@using DmvTrainingApp.Models
+
+<div>
+    <h3>Step 4: Fee Summary & Submission</h3>
+    <div class="mb-3">
+        <label>Title Fee:</label>
+        <span class="ms-2">$@Model.Fee</span>
+    </div>
+    @if (Model.ApplicationNumber > 0)
+    {
+        <div class="mb-3">
+            <label>Application Number:</label>
+            <span class="ms-2 fw-bold">@Model.ApplicationNumber</span>
+        </div>
+    }
+    <div class="mb-3">
+        <h5>Vehicle Information</h5>
+        <ul class="list-group mb-3">
+            <li class="list-group-item"><strong>VIN:</strong> @Model.VIN</li>
+            <li class="list-group-item"><strong>Make:</strong> @Model.Make</li>
+            <li class="list-group-item"><strong>Model:</strong> @Model.Model</li>
+            <li class="list-group-item"><strong>Year:</strong> @Model.Year</li>
+            <li class="list-group-item"><strong>Color:</strong> @Model.Color</li>
+            <li class="list-group-item"><strong>Body Type:</strong> @Model.BodyType</li>
+            <li class="list-group-item"><strong>Odometer Reading:</strong> @Model.OdometerReading</li>
+        </ul>
+        <h5>Owner Information</h5>
+        <ul class="list-group mb-3">
+            <li class="list-group-item"><strong>Name:</strong> @Model.OwnerName</li>
+            <li class="list-group-item"><strong>Address:</strong> @Model.OwnerAddress</li>
+            <li class="list-group-item"><strong>Email:</strong> @Model.OwnerEmail</li>
+            <li class="list-group-item"><strong>Phone:</strong> @Model.OwnerPhone</li>
+        </ul>
+    </div>
+    <button class="btn btn-secondary me-2" type="button" @onclick="PrevStep">Back</button>
+    <button class="btn btn-success" type="submit">Submit Application</button>
+</div>
+
+@code {
+    [Parameter] public VehicleTitleModel Model { get; set; }
+    [Parameter] public EventCallback PrevStep { get; set; }
+}

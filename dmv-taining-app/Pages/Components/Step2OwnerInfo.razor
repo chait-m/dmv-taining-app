@@ -1,0 +1,34 @@
+@using DmvTrainingApp.Models
+
+<div>
+    <h3>Step 2: Owner Information</h3>
+    <div class="mb-3">
+        <label>Owner Name:</label>
+        <InputText class=@($"form-control w-50 {GetInputClass(nameof(Model.OwnerName))}") @bind-Value="Model.OwnerName" />
+        <ValidationMessage For="() => Model.OwnerName" class="invalid-feedback d-block" />
+    </div>
+    <div class="mb-3">
+        <label>Address:</label>
+        <InputText class=@($"form-control w-50 {GetInputClass(nameof(Model.OwnerAddress))}") @bind-Value="Model.OwnerAddress" />
+        <ValidationMessage For="() => Model.OwnerAddress" class="invalid-feedback d-block" />
+    </div>
+    <div class="mb-3">
+        <label>Email:</label>
+        <InputText class=@($"form-control w-50 {GetInputClass(nameof(Model.OwnerEmail))}") @bind-Value="Model.OwnerEmail" />
+        <ValidationMessage For="() => Model.OwnerEmail" class="invalid-feedback d-block" />
+    </div>
+    <div class="mb-3">
+        <label>Phone:</label>
+        <InputText class=@($"form-control w-50 {GetInputClass(nameof(Model.OwnerPhone))}") @bind-Value="Model.OwnerPhone" />
+        <ValidationMessage For="() => Model.OwnerPhone" class="invalid-feedback d-block" />
+    </div>
+    <button class="btn btn-secondary me-2" type="button" @onclick="PrevStep">Back</button>
+    <button class="btn btn-primary" type="button" @onclick="NextStep">Next</button>
+</div>
+
+@code {
+    [Parameter] public VehicleTitleModel Model { get; set; }
+    [Parameter] public EventCallback NextStep { get; set; }
+    [Parameter] public EventCallback PrevStep { get; set; }
+    [Parameter] public Func<string, string> GetInputClass { get; set; }
+}
