@@ -1,0 +1,30 @@
+﻿@page "/new-vehicle-title"
+@using dmv_training_app.Models
+@using System.ComponentModel.DataAnnotations;
+
+@inherits dmv_training_app.Pages.NewVehicleTitle
+
+<PageTitle>New Vehicle Title</PageTitle>
+
+<h1>New Vehicle Title Application</h1>
+
+<EditForm EditContext="_editContext" OnValidSubmit="HandleValidSubmit">
+    <DataAnnotationsValidator />
+
+    @if (this.step == 1)
+    {
+        <Pages.Components.Step1VehicleInfo Model="vehicleTitleModel" NextStep="NextStep" GetInputClass="GetInputClass" />
+    }
+    else if (this.step == 2)
+    {
+        <Pages.Components.Step2OwnerInfo Model="vehicleTitleModel" NextStep="NextStep" PrevStep="PrevStep" GetInputClass="GetInputClass" />
+    }
+    else if (this.step == 3)
+    {
+        <Pages.Components.Step3DocumentUpload Model="vehicleTitleModel" NextStep="NextStep" PrevStep="PrevStep" UploadFile="UploadFile" />
+    }
+    else if (this.step == 4)
+    {
+        <Pages.Components.Step4Summary Model="vehicleTitleModel" PrevStep="PrevStep" />
+    }
+</EditForm>

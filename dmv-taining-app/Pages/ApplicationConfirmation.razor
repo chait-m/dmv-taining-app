@@ -1,0 +1,59 @@
+﻿@page "/application-confirmation/{ApplicationNumber:int}"
+@inject Microsoft.JSInterop.IJSRuntime JS
+@using dmv_training_app.Models
+@using Microsoft.AspNetCore.Components
+@using Microsoft.AspNetCore.Components.Forms
+
+<PageTitle>Application Confirmation</PageTitle>
+
+<h1>Application Submitted</h1>
+
+@if (application == null)
+{
+    <div class="alert alert-info">Loading application details...</div>
+}
+else
+{
+    <div class="alert alert-success mb-4">
+        <strong>Your application has been submitted successfully!</strong><br />
+        <span>Application Number: <strong>@application.ApplicationNumber</strong></span>
+    </div>
+    <div class="mb-3">
+        <h5>Vehicle Information</h5>
+        <ul class="list-group mb-3">
+            <li class="list-group-item"><strong>VIN:</strong> @application.VIN</li>
+            <li class="list-group-item"><strong>Make:</strong> @application.Make</li>
+            <li class="list-group-item"><strong>Model:</strong> @application.Model</li>
+            <li class="list-group-item"><strong>Year:</strong> @application.Year</li>
+            <li class="list-group-item"><strong>Color:</strong> @application.Color</li>
+            <li class="list-group-item"><strong>Body Type:</strong> @application.BodyType</li>
+            <li class="list-group-item"><strong>Odometer Reading:</strong> @application.OdometerReading</li>
+        </ul>
+        <h5>Owner Information</h5>
+        <ul class="list-group mb-3">
+            <li class="list-group-item"><strong>Name:</strong> @application.OwnerName</li>
+            <li class="list-group-item"><strong>Address:</strong> @application.OwnerAddress</li>
+            <li class="list-group-item"><strong>Email:</strong> @application.OwnerEmail</li>
+            <li class="list-group-item"><strong>Phone:</strong> @application.OwnerPhone</li>
+        </ul>
+        <div class="mb-3">
+            <label>Title Fee:</label>
+            <span class="ms-2">$@application.Fee</span>
+        </div>
+    </div>
+    <a class="btn btn-primary" href="/new-vehicle-title">Create New Application</a>
+}
+
+@code {
+    [Parameter] public int ApplicationNumber { get; set; }
+    private VehicleTitleModel? application;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var json = await JS.InvokeAsync<string>("dmvAppDb.getApplicationByNumber", new object[] { ApplicationNumber });
+        if (!string.IsNullOrWhiteSpace(json))
+        {
+            application = System.Text.Json.JsonSerializer.Deserialize<VehicleTitleModel>(json);
+        }
+    }
+}
