@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace DmvTrainingApp.Models
+namespace dmv_training_app.Models
 {
     public class VehicleTitleModel
     {

@@ -1,4 +1,4 @@
-using dmv_taining_app;
+using dmv_training_app;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 

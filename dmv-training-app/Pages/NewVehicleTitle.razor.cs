@@ -1,11 +1,11 @@
 using System.ComponentModel.DataAnnotations;
-using DmvTrainingApp.Models;
+using dmv_training_app.Models;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.JSInterop;
 using System.Text.Json;
 
-namespace DmvTrainingApp.Pages;
+namespace dmv_training_app.Pages;
 
 public partial class NewVehicleTitle : ComponentBase
 {

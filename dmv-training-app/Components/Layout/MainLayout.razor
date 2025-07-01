@@ -1,8 +1,10 @@
-﻿@inherits LayoutComponentBase
+﻿@namespace dmv_training_app.Components.Layout
+@inherits LayoutComponentBase
 
 <div class="page">
     <div class="sidebar">
-        <NavMenu />
+        @* Use fully qualified name to resolve ambiguity *@
+        <dmv_training_app.Components.Layout.NavMenu />
     </div>
 
     <main>
