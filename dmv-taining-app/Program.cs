@@ -1,4 +1,6 @@
-using dmv_taining_app.Components;
+//using dmv_taining_app.Components;
+
+using dmv_taining_app;
 
 var builder = WebApplication.CreateBuilder(args);
 
