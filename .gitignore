@@ -4,3 +4,6 @@
 
 /.vs
 /dmv-taining-app/obj
+/dmv-training-app/bin/Debug/net9.0
+/dmv-training-app/obj/Debug/net9.0
+/dmv-training-app/obj
