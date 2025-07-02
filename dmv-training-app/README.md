@@ -2,6 +2,30 @@
 
 This is a Blazor application for managing new vehicle title applications. The app is built with .NET 9 and C# 13, and demonstrates a multi-step form process for submitting vehicle title information, owner details, and required documents.
 
+## Deployment Workflow
+
+To deploy the DMV Training App (Blazor WebAssembly):
+
+1. **Build the Application**
+   - Run `dotnet build` to ensure the project compiles successfully.
+2. **Publish for Production**
+   - Run `dotnet publish -c Release -o ./publish` to generate the production-ready files.
+   - The output will be in the `./publish` directory.
+3. **Deploy to Static Host or Web Server**
+   - Copy the contents of the `./publish/wwwroot` folder to your web server or static site host (e.g., Azure Static Web Apps, GitHub Pages, AWS S3, Netlify).
+   - Ensure the server is configured to serve `index.html` for all routes (for client-side routing).
+4. **(Optional) CI/CD Integration**
+   - Integrate with GitHub Actions, Azure DevOps, or other CI/CD tools to automate build and deployment steps.
+   - Example GitHub Actions steps:
+     - Checkout code
+     - Setup .NET 9
+     - Build and publish
+     - Deploy to your chosen host
+
+**Note:**
+- For Blazor WebAssembly, only the contents of the `wwwroot` folder are needed for deployment.
+- Update your hosting provider's configuration to support client-side routing if necessary.
+
 ## Latest Changes
 
 - Fixed all build errors for .NET 9 and C# 13 compatibility.
