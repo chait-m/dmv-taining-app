@@ -1,8 +1,7 @@
-﻿@page "/application-confirmation/{ApplicationNumber:int}"
-@inject Microsoft.JSInterop.IJSRuntime JS
+@page "/application-confirmation/{ApplicationNumber:int}"
+@inject IJSRuntime JS
 @using dmv_training_app.Models
 @using Microsoft.AspNetCore.Components
-@using Microsoft.AspNetCore.Components.Forms
 
 <PageTitle>Application Confirmation</PageTitle>
 
@@ -50,7 +49,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        var json = await JS.InvokeAsync<string>("dmvAppDb.getApplicationByNumber", new object[] { ApplicationNumber });
+        var json = await JS.InvokeAsync<string>("dmvAppDb.getApplicationByNumber", ApplicationNumber);
         if (!string.IsNullOrWhiteSpace(json))
         {
             application = System.Text.Json.JsonSerializer.Deserialize<VehicleTitleModel>(json);

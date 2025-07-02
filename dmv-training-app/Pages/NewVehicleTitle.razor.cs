@@ -1,19 +1,19 @@
-﻿using dmv_training_app.Models;
+using System.ComponentModel.DataAnnotations;
+using dmv_training_app.Models;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.JSInterop;
-using System.ComponentModel.DataAnnotations;
 using System.Text.Json;
 
 namespace dmv_training_app.Pages;
 
 public partial class NewVehicleTitle : ComponentBase
 {
-    protected int step = 1;
-    protected VehicleTitleModel vehicleTitleModel = new();
-    protected EditContext _editContext;
-    [Inject] protected IJSRuntime JS { get; set; } = default!;
-    [Inject] protected NavigationManager Navigation { get; set; } = default!;
+    private int step = 1;
+    private VehicleTitleModel vehicleTitleModel = new();
+    private EditContext _editContext;
+    [Inject] private IJSRuntime JS { get; set; } = default!;
+    [Inject] private NavigationManager Navigation { get; set; } = default!;
     private int lastApplicationNumber = 0;
 
     protected override void OnInitialized()
@@ -107,10 +107,10 @@ public partial class NewVehicleTitle : ComponentBase
     private async Task<int> SaveApplicationToLocalDb()
     {
         // Get the last application number from local storage
-        int lastAppNumber = await JS.InvokeAsync<int>("dmvAppDb.getLastAppNumber", Array.Empty<object>());
+        int lastAppNumber = await JS.InvokeAsync<int>("dmvAppDb.getLastAppNumber");
         int newAppNumber = lastAppNumber > 0 ? lastAppNumber + 1 : 100001;
         vehicleTitleModel.ApplicationNumber = newAppNumber;
-        await JS.InvokeVoidAsync("dmvAppDb.saveApplication", new object[] { System.Text.Json.JsonSerializer.Serialize(vehicleTitleModel), newAppNumber });
+        await JS.InvokeVoidAsync("dmvAppDb.saveApplication", JsonSerializer.Serialize(vehicleTitleModel), newAppNumber);
         return newAppNumber;
     }
 }

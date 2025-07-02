@@ -1,9 +1,6 @@
-﻿@page "/applications"
-@inject Microsoft.JSInterop.IJSRuntime JS
-@using Microsoft.JSInterop
+@page "/applications"
+@inject IJSRuntime JS
 @using dmv_training_app.Models
-@using Microsoft.AspNetCore.Components
-@using Microsoft.AspNetCore.Components.Forms
 
 <PageTitle>All Applications</PageTitle>
 
@@ -88,7 +85,7 @@ else
 
     private async Task LoadApplications()
     {
-        var json = await JS.InvokeAsync<string>("dmvAppDb.getAllApplications", Array.Empty<object>());
+        var json = await JS.InvokeAsync<string>("dmvAppDb.getAllApplications");
         if (!string.IsNullOrWhiteSpace(json))
         {
             applications = System.Text.Json.JsonSerializer.Deserialize<List<VehicleTitleModel>>(json);
@@ -102,19 +99,19 @@ else
 
     private async Task ClearData()
     {
-        await JS.InvokeVoidAsync("dmvAppDb.clearApplications", Array.Empty<object>());
+        await JS.InvokeVoidAsync("dmvAppDb.clearApplications");
         await LoadApplications();
     }
 
     private async Task ShowClearDataModal()
     {
-        await JS.InvokeVoidAsync("dmvAppModal.show", new object[] { "clearDataModal" });
+        await JS.InvokeVoidAsync("dmvAppModal.show", "clearDataModal");
     }
 
     private async Task OnConfirmClearData()
     {
         await ClearData();
-        await JS.InvokeVoidAsync("dmvAppModal.hide", new object[] { "clearDataModal" });
+        await JS.InvokeVoidAsync("dmvAppModal.hide", "clearDataModal");
         showClearedMessage = true;
         StateHasChanged();
         await Task.Delay(1000);

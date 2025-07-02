@@ -1,8 +1,8 @@
-﻿@page "/new-vehicle-title"
-@using dmv_training_app.Models
+@page "/new-vehicle-title"
+@using dmv_training_app.Models;
 @using System.ComponentModel.DataAnnotations;
-
-@inherits dmv_training_app.Pages.NewVehicleTitle
+@using dmv_training_app.Pages.Components;
+@using dmv_training_app.Pages;
 
 <PageTitle>New Vehicle Title</PageTitle>
 
@@ -11,20 +11,20 @@
 <EditForm EditContext="_editContext" OnValidSubmit="HandleValidSubmit">
     <DataAnnotationsValidator />
 
-    @if (this.step == 1)
+    @if (step == 1)
     {
-        <Pages.Components.Step1VehicleInfo Model="vehicleTitleModel" NextStep="NextStep" GetInputClass="GetInputClass" />
+        <Step1VehicleInfo Model="vehicleTitleModel" NextStep="NextStep" GetInputClass="GetInputClass" />
     }
-    else if (this.step == 2)
+    else if (step == 2)
     {
-        <Pages.Components.Step2OwnerInfo Model="vehicleTitleModel" NextStep="NextStep" PrevStep="PrevStep" GetInputClass="GetInputClass" />
+        <Step2OwnerInfo Model="vehicleTitleModel" NextStep="NextStep" PrevStep="PrevStep" GetInputClass="GetInputClass" />
     }
-    else if (this.step == 3)
+    else if (step == 3)
     {
-        <Pages.Components.Step3DocumentUpload Model="vehicleTitleModel" NextStep="NextStep" PrevStep="PrevStep" UploadFile="UploadFile" />
+        <Step3DocumentUpload Model="vehicleTitleModel" NextStep="NextStep" PrevStep="PrevStep" UploadFile="UploadFile" />
     }
-    else if (this.step == 4)
+    else if (step == 4)
     {
-        <Pages.Components.Step4Summary Model="vehicleTitleModel" PrevStep="PrevStep" />
+        <Step4Summary Model="vehicleTitleModel" PrevStep="PrevStep" />
     }
 </EditForm>
